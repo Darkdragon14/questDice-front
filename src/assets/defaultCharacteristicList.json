@@ -1,0 +1,76 @@
+[
+  {
+    "label": "Name",
+    "icon": "mdi-account",
+    "hasSubgroup": false,
+    "type": "Text",
+    "subgroup": []
+  },
+  {
+    "label": "Race",
+    "icon": "mdi-face-recognition",
+    "hasSubgroup": false,
+    "type": "Text",
+    "subgroup": []
+  },
+  {
+    "label": "Class",
+    "icon": "mdi-shield-sword-outline",
+    "hasSubgroup": false,
+    "type": "Text",
+    "subgroup": []
+  },
+  {
+    "label": "LvL",
+    "icon": "mdi-dice-d20",
+    "hasSubgroup": false,
+    "type": "Number",
+    "subgroup": []
+  },
+  {
+    "label": "Story",
+    "icon": "mdi-book-open-page-variant-outline",
+    "hasSubgroup": false,
+    "type": "Large Text",
+    "subgroup": []
+  },
+  {
+    "label": "HP",
+    "icon": "mdi-heart",
+    "hasSubgroup": false,
+    "type": "Number",
+    "subgroup": []
+  },
+  {
+    "label": "Mana",
+    "icon": "mdi-fire",
+    "hasSubgroup": false,
+    "type": "Number",
+    "subgroup": []
+  },
+  {
+    "label": "Spell",
+    "icon": "mdi-magic-staff",
+    "hasSubgroup": true,
+    "subgroup": [
+      {
+        "label": "LvL1",
+        "icon": "mdi-dice-d20",
+        "hasSubgroup": false,
+        "subgroup": []
+      },
+      {
+        "label": "Lvl2",
+        "icon": "mdi-dice-d20",
+        "hasSubgroup": false,
+        "subgroup": []
+      },
+      {
+        "label": "Lvl3",
+        "icon": "mdi-dice-d20",
+        "hasSubgroup": false,
+        "subgroup": []
+      }
+    ]
+  }
+]
