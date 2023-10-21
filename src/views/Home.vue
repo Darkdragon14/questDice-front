@@ -123,13 +123,9 @@
     methods: {
       create() {
         socket.connect()
-        console.log(this.username)
-        console.log(this.room)
         this.isCreating = true 
       },
       join() {
-        console.log(this.username)
-        console.log(this.room)
         this.isJoining = true 
         socket.emit('user', this.username, (infoUser: {name: string}) => {
           state.users[socket.id] = infoUser
@@ -154,7 +150,6 @@
           
           state.room = infoRoom.room
           socket.emit('users in channel', infoRoom.room.users, (users: object) => {
-            console.log(users)
             state.users = users
           })
           this.$router.push('/dashboard')
