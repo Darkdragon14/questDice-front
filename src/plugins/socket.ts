@@ -7,7 +7,7 @@ export const state = reactive({
   users: {}
 });
 
-const url = "http://192.168.1.123:3000";
+const url = "http://localhost:3000";
 
 export const socket = io(url);
 
@@ -20,8 +20,11 @@ socket.on("disconnect", () => {
 });
 
 socket.on('new player', newPlayer => {
-  console.log(newPlayer);
   const userId = newPlayer.userId
   delete newPlayer.userId
   state.users[userId] = newPlayer
+})
+
+socket.on('create or update personnage', (userId, characterData) => {
+  state.room.players[userId] = characterData
 })

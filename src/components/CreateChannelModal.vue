@@ -246,7 +246,6 @@
     },
     methods: {
       submit() {
-        console.log('test')
         socket.emit('user', this.username, (infoUser: {name: string}) => {
           state.users[socket.id] = infoUser
         })
@@ -269,10 +268,7 @@
             return
           }
 
-          console.log(channel);
-          
           state.room = channel.room
-          console.log(state.room);
           this.$router.push('/dashboard')
         })
       },

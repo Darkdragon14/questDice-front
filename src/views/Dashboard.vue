@@ -2,12 +2,13 @@
   <UserList 
     :users="users"
     :room="room"
+    @changeUser="changeUser"
   />
   <CharacterSheet
     :users="users"
     :room="room"
+    :selectedUser="selectedUser"
   />
-  {{ room.name }}#{{ room.id }}
 </template>
 
 <script lang="ts">
@@ -17,9 +18,19 @@
   import CharacterSheet from '@/components/CharacterSheet.vue';
 
   export default defineComponent({
+    data() {
+      return {
+        selectedUser: socket.id
+      }
+    },
     components: { 
       CharacterSheet,
       UserList
+    },
+    methods: {
+      changeUser(newSelectedUser) {
+        this.selectedUser = newSelectedUser
+      }
     },
     setup() {
       const users = ref(state.users)

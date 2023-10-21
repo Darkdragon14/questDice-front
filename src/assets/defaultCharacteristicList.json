@@ -57,18 +57,21 @@
         "label": "LvL1",
         "icon": "mdi-dice-d20",
         "hasSubgroup": false,
+        "type": "Large Text",
         "subgroup": []
       },
       {
         "label": "Lvl2",
         "icon": "mdi-dice-d20",
         "hasSubgroup": false,
+        "type": "Large Text",
         "subgroup": []
       },
       {
         "label": "Lvl3",
         "icon": "mdi-dice-d20",
         "hasSubgroup": false,
+        "type": "Large Text",
         "subgroup": []
       }
     ]

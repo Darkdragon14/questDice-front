@@ -24,15 +24,32 @@
             :prepend-icon="characteristic.icon" 
             :label="characteristic.label" 
             :type="characteristic.type"
+            :model-value="room.players[selectedUser][characteristic.label]"
             @input="e => updateCharacteristc(characteristic.label, e.target.value)"
           />
           <template  v-else>
-            <v-tooltip :ripple="false" :text="characteristic.label">
+            <v-list-group>
               <template v-slot:activator="{ props }">
-                <v-icon style="margin-right: 10px;" v-bind="props">{{ characteristic.icon }}</v-icon>
+                <v-list-item v-bind="props">
+                  <v-tooltip :ripple="false" :text="characteristic.label">
+                    <template v-slot:activator="{ props }">
+                      <v-icon style="margin-right: 10px;" v-bind="props">{{ characteristic.icon }}</v-icon>
+                    </template>
+                  </v-tooltip>
+                  {{ characteristic.label }}
+                </v-list-item>
               </template>
-            </v-tooltip>
-            {{ characteristic.label }}
+              <v-list-item v-for="subCharacteristic in characteristic.subgroup">
+                <v-text-field v-if="subCharacteristic.type" 
+                  :disabled="isNoEditionMode" 
+                  :prepend-icon="subCharacteristic.icon" 
+                  :label="subCharacteristic.label" 
+                  :type="subCharacteristic.type"
+                  :model-value="room.players[selectedUser][characteristic.label][subCharacteristic.label]"
+                  @input="e => updateCharacteristc(subCharacteristic.label, e.target.value, characteristic.label)"
+                />
+              </v-list-item>
+            </v-list-group>
           </template>
           
         </v-list-item>
@@ -49,9 +66,7 @@
     data() {
       return {
         socket,
-        selectedUser: socket.id,
-        isNoEditionMode: true,
-        characterData: {}
+        isNoEditionMode: true
       }
     },
     computed: {
@@ -74,6 +89,10 @@
       room: {
         type: Object,
         require: true
+      },
+      selectedUser: {
+        type: String,
+        require: true
       }
     },
     methods: {
@@ -81,11 +100,14 @@
         this.isNoEditionMode = !this.isNoEditionMode
         if(this.isNoEditionMode) {
           // Send new info to the server
-          console.log(this.characterData)
+          console.log(this.room.players[this.selectedUser])
+          this.socket.emit('create or update personnage', this.selectedUser, this.room.players[this.selectedUser], result => {
+            console.log(result);
+          })
         }
       },
-      updateCharacteristc(key, value) {
-        this.characterData[key] = value
+      updateCharacteristc(key, value, characteristicLabel) {
+        characteristicLabel ? this.room.players[this.selectedUser][characteristicLabel][key] = value : this.room.players[this.selectedUser][key] = value
       }
     }
   })

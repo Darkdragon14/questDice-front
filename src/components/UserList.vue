@@ -1,9 +1,13 @@
 <template>
   <v-navigation-drawer permanent>
+
     <v-divider></v-divider>
-    <v-list-item title="Players"></v-list-item>
+    <v-list-item-title>Channel</v-list-item-title>
+    <v-list-item :title="roomName" append-icon="mdi-content-copy" @click="copyRoom"></v-list-item>
+    <v-divider></v-divider>
+    <v-list-item-title>Players</v-list-item-title>
     <template v-for="(user, key) in users">
-      <v-list-item link>
+      <v-list-item @click="changeUser(key)">
         {{ user.name }}
         <v-chip size="x-small" v-if="room.admin === key">
           Game Master
@@ -25,6 +29,19 @@
       room: {
         type: Object,
         require: true
+      }
+    },
+    computed: {
+      roomName() {
+        return `${this.room.name}#${this.room.id}`
+      }
+    },
+    methods: {
+      copyRoom() {
+        navigator.clipboard.writeText(this.roomName)
+      },
+      changeUser(userKey: String) {
+        this.$emit('changeUser', userKey)
       }
     }
   })
