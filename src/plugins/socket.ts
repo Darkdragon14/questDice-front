@@ -4,7 +4,8 @@ import { io } from "socket.io-client";
 export const state = reactive({
   connected: false,
   room: {},
-  users: {}
+  users: {},
+  rollLogs: []
 });
 
 const url = "http://localhost:3000";
@@ -27,4 +28,8 @@ socket.on('new player', newPlayer => {
 
 socket.on('create or update personnage', (userId, characterData) => {
   state.room.players[userId] = characterData
+})
+
+socket.on('dice result', result => {
+  state.rollLogs.push(result)
 })
