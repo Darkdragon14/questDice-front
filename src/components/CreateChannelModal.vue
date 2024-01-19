@@ -210,6 +210,18 @@
   import { socket, state } from '@/plugins/socket'
   import defaultCharacteristicList from '@/assets/defaultCharacteristicList.json'
 
+  interface Characteristic {
+    label: string;
+    icon: string;
+    hasSubgroup: boolean;
+    type: string;// ou le type correct pour subgroup
+  }
+
+  interface CharacteristicWithSubgroup extends Characteristic {
+    subgroup: Characteristic[];
+  }
+
+
   export default defineComponent({
     props: {
       isOpen: {
@@ -236,7 +248,7 @@
         options: ['Name', 'HP'],
         option: '',
         hasSubgroup: false,
-        characteristicsList: defaultCharacteristicList,
+        characteristicsList: defaultCharacteristicList as CharacteristicWithSubgroup[],
         maxPlayers: 4,
         errorMessage: '',
         optionsType: ["Text", "Large Text", "Number"],
@@ -257,7 +269,7 @@
             name: string,
             admin: string,
             users: string[],
-            player: object,
+            players: { [key: string]: object },
             maxPlayers: number,
             characteristicPlayer: object[]
           }, 
@@ -287,7 +299,7 @@
         if (!this.characteristic) {
           return;
         }
-        const objectToPush = {
+        const objectToPush: CharacteristicWithSubgroup = {
           label: this.characteristic,
           icon: `mdi-${this.icon || 'dice-d20'}`,
           hasSubgroup: this.hasSubgroup,

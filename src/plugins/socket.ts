@@ -1,9 +1,37 @@
 import { reactive } from "vue";
 import { io } from "socket.io-client";
 
-export const state = reactive({
+interface State {
+    connected: boolean;
+    room: {
+        id: string,
+        name: string,
+        admin: string,
+        users: string[],
+        players: {
+            [key: string]: object
+        },
+        maxPlayers: number,
+        characteristicPlayer: object[]
+    };
+    users: any;
+    rollLogs: {
+        total: number,
+        userId: string
+    }[];
+}
+
+export const state: State = reactive({
   connected: false,
-  room: {},
+  room: {
+    id: '',
+    name: '',
+    admin: '',
+    users: [],
+    players: {},
+    maxPlayers: 0,
+    characteristicPlayer: []
+  },
   users: {},
   rollLogs: []
 });

@@ -118,7 +118,15 @@
     },
     mounted() {
       state.users = {}
-      state.room = {}
+      state.room = {
+        id: '',
+        name: '',
+        admin: '',
+        users: [],
+        players: {},
+        maxPlayers: 0,
+          characteristicPlayer: []
+      }
     },
     methods: {
       create() {
@@ -133,10 +141,11 @@
         socket.emit('join room', this.room, (infoRoom: {
           joinning: boolean, 
           room: {
+            id: string,
             name: string,
             admin: string,
             users: string[],
-            player: {},
+            players: {},
             maxPlayers: number,
             characteristicPlayer: []
           },

@@ -7,11 +7,11 @@
             <v-expansion-panels>
               <template v-if="rollLogs?.length" v-for="roll of currentRolls">
                 <v-expansion-panel>
-                    <v-expansion-panel-title>Result of {{ roll.userId === socket.id ? 'Me' : users[roll.userId].name}}: {{ roll.total }}</v-expansion-panel-title>
+                    <v-expansion-panel-title>Result of {{ roll.userId === socket.id ? 'Me' : users ? users[roll.userId].name : 'user not found'}}: {{ roll.total }}</v-expansion-panel-title>
                     <v-expansion-panel-text>
                         <template v-for="(value, dice) in roll">
                           <template v-if="!['total','userId'].includes(dice)">
-                            <v-icon>{{ dice.split('.')[0] == 100 ? 'mdi-cash-100' : `mdi-dice-d${dice.split('.')[0]}`}}</v-icon>: {{ value }}<br>
+                            <v-icon>{{ dice.split('.')[0] === '100' ? 'mdi-cash-100' : `mdi-dice-d${dice.split('.')[0]}`}}</v-icon>: {{ value }}<br>
                           </template>
                         </template>
                     </v-expansion-panel-text>
@@ -61,15 +61,10 @@
       }
     },
     computed: {
-      details(roll: Object) {
-        delete roll.total
-        delete roll.userId
-        return roll
-      },
       totalPage() {
         return this.rollLogs ? Math.ceil(this.rollLogs.length / 5) : 1
       },
-      currentRolls() {
+      currentRolls(): { total: number, userId: string }[] {
         const startIndex = 5 * (this.page - 1)
         const lastIndex = startIndex + 5
         return this.rollLogs ? this.rollLogs.reverse().slice(startIndex, lastIndex) : []

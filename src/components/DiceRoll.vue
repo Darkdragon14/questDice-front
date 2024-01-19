@@ -32,7 +32,7 @@
                             <v-expansion-panel-title>{{ result }}</v-expansion-panel-title>
                             <v-expansion-panel-text>
                                 <template v-for="(value, dice) in resultDetails">
-                                    <v-icon>{{ dice.split('.')[0] == 100 ? 'mdi-cash-100' : `mdi-dice-d${dice.split('.')[0]}`}}</v-icon>: {{ value }}<br>
+                                    <v-icon>{{ dice.toString().split('.')[0] === '100' ? 'mdi-cash-100' : `mdi-dice-d${dice.toString().split('.')[0]}`}}</v-icon>: {{ value }}<br>
                                 </template>
                             </v-expansion-panel-text>
                         </v-expansion-panel>
@@ -56,6 +56,9 @@
     import { defineComponent } from 'vue'
     import { socket, state } from '@/plugins/socket'
 
+    interface  DiceResult {
+      [key: string]: number | string
+    }
     export default defineComponent({
         data() {
             return {
@@ -63,7 +66,7 @@
                 inputActivates: [false],
                 inputValues: [0],
                 result: '',
-                resultDetails: {},
+                resultDetails: {} as DiceResult,
                 broadcast: true,
             }
         },
@@ -84,19 +87,20 @@
                     }
                 }
                 
-                socket.emit('roll', dices, this.broadcast, (result: {}) => {
+                socket.emit('roll', dices, this.broadcast, (result: { total: number, userId: string }) => {
                     state.rollLogs.push({...result})
                     this.result = `Result: ${result.total}`
-                    delete result.total
-                    delete result.userId
-                    this.resultDetails = result
+                    const resultDetails: DiceResult = Object.fromEntries(
+                      Object.entries(result).filter(([key]) => !['total', 'userId'].includes(key))
+                    );
+                    this.resultDetails = resultDetails
                 })
             },
             reset() {
                 this.inputActivates = [false, false, false, false, false, false , false]
                 this.inputValues = [0, 0, 0, 0, 0, 0, 0]
                 this.result = ''
-                this.resultDetails = {}
+                this.resultDetails = {} as DiceResult
             }
         }
     })

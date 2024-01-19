@@ -9,7 +9,7 @@
     <template v-for="(user, key) in users">
       <v-list-item @click="changeUser(key)">
         {{ user.name }}
-        <v-chip size="x-small" v-if="room.admin === key">
+        <v-chip size="x-small" v-if="room && room.admin === key">
           Game Master
         </v-chip>
       </v-list-item>
@@ -33,7 +33,7 @@
     },
     computed: {
       roomName() {
-        return `${this.room.name}#${this.room.id}`
+        return `${this.room?.name}#${this.room?.id}`
       }
     },
     methods: {

@@ -45,7 +45,7 @@
     RollLogs
 },
     methods: {
-      changeUser(newSelectedUser) {
+      changeUser(newSelectedUser: string) {
         this.selectedUser = newSelectedUser
       }
     },
