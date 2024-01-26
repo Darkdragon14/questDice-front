@@ -1,5 +1,6 @@
 import { reactive } from "vue";
 import { io } from "socket.io-client";
+const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 interface State {
     connected: boolean;
@@ -36,9 +37,7 @@ export const state: State = reactive({
   rollLogs: []
 });
 
-const url = "http://localhost:3000";
-
-export const socket = io(url);
+export const socket = io(backendUrl);
 
 socket.on("connection", () => {
   state.connected = true;

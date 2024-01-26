@@ -1,9 +1,10 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+const defaultPath = import.meta.env.VITE_DEFAULT_PATH
 
 const routes = [
   {
-    path: '/',
+    path: `${defaultPath}/${defaultPath}`,
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
