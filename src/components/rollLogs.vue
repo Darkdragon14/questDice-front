@@ -21,7 +21,7 @@
           </v-col>
         </v-row>
     </v-card-text>
-    <v-card-actions v-if="totalPage != 1">
+    <v-card-actions v-if="totalPage > 1">
       <v-container>
         <v-row justify="center">
           <v-col cols="8">
