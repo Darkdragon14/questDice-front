@@ -22,6 +22,7 @@
       </v-col>
     </v-row>
   </v-container>
+  <DisconnectSnackbar/>
 </template>
 
 <script lang="ts">
@@ -31,6 +32,7 @@
   import CharacterSheet from '@/components/CharacterSheet.vue';
   import DiceRoll from '@/components/DiceRoll.vue';
   import RollLogs from '@/components/rollLogs.vue';
+  import DisconnectSnackbar from '@/components/DisconnectSnackbar.vue';
 
   export default defineComponent({
     data() {
@@ -42,7 +44,8 @@
     CharacterSheet,
     UserList,
     DiceRoll,
-    RollLogs
+    RollLogs,
+    DisconnectSnackbar
 },
     methods: {
       changeUser(newSelectedUser: string) {

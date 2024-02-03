@@ -9,6 +9,7 @@
     <template v-for="(user, key) in users">
       <v-list-item @click="changeUser(key)">
         {{ user.name }}
+        <v-icon v-if="!user.isConnected">mdi-account-off</v-icon>
         <v-chip size="x-small" v-if="room && room.admin === key">
           Game Master
         </v-chip>
