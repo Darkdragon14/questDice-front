@@ -4,7 +4,7 @@ const defaultPath = import.meta.env.VITE_DEFAULT_PATH
 
 const routes = [
   {
-    path: `${defaultPath}/${defaultPath}`,
+    path: defaultPath,
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
@@ -16,7 +16,7 @@ const routes = [
         component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       },
       {
-        path: '/dashboard',
+        path: `${defaultPath}/dashboard`,
         name: 'Dashboard',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route

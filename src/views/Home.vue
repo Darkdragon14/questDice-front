@@ -97,6 +97,7 @@
   import { defineComponent } from 'vue'
   import CreateChannelModel from '@/components/CreateChannelModal.vue'
   import { socket, state } from '@/plugins/socket';
+  const defaultPath = import.meta.env.VITE_DEFAULT_PATH
 
   export default defineComponent({
     components: {
@@ -161,7 +162,7 @@
           socket.emit('users in channel', infoRoom.room.users, (users: object) => {
             state.users = users
           })
-          this.$router.push('/dashboard')
+          this.$router.push(`${defaultPath}/dashboard`)
         })
       },
       stopCreatingChannel() {

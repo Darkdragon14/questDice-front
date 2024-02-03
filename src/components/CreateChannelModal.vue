@@ -209,6 +209,7 @@
   import { defineComponent } from 'vue'
   import { socket, state } from '@/plugins/socket'
   import defaultCharacteristicList from '@/assets/defaultCharacteristicList.json'
+  const defaultPath = import.meta.env.VITE_DEFAULT_PATH
 
   interface Characteristic {
     label: string;
@@ -281,7 +282,7 @@
           }
 
           state.room = channel.room
-          this.$router.push('/dashboard')
+          this.$router.push(`${defaultPath}/dashboard`)
         })
       },
       moveElement(currentKey: number, up: boolean, label: string) {
