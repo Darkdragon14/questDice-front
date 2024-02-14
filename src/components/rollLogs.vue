@@ -47,7 +47,8 @@
     data() {
       return {
         page: 1,
-        socket
+        socket,
+        state
       }
     },
     props: {

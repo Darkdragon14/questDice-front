@@ -16,7 +16,7 @@ export interface Room {
   error?: string
 }
 
-interface State {
+export interface State {
   ownUserId: string,
   connected: boolean;
   room: Room;
