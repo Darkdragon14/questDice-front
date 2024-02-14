@@ -27,7 +27,7 @@
 
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue'
-  import { socket, state } from '@/plugins/socket';
+  import { state } from '@/plugins/socket';
   import UserList from '@/components/UserList.vue';
   import CharacterSheet from '@/components/CharacterSheet.vue';
   import DiceRoll from '@/components/DiceRoll.vue';
@@ -37,16 +37,16 @@
   export default defineComponent({
     data() {
       return {
-        selectedUser: socket.id
+        selectedUser: state.ownUserId
       }
     },
     components: {
-    CharacterSheet,
-    UserList,
-    DiceRoll,
-    RollLogs,
-    DisconnectSnackbar
-},
+      CharacterSheet,
+      UserList,
+      DiceRoll,
+      RollLogs,
+      DisconnectSnackbar
+    },
     methods: {
       changeUser(newSelectedUser: string) {
         this.selectedUser = newSelectedUser

@@ -260,7 +260,7 @@
     methods: {
       submit() {
         socket.emit('user', this.username, (infoUser: {name: string}) => {
-          state.users[socket.id] = infoUser
+          state.users[state.ownUserId] = infoUser
         })
 
         socket.emit('create room', this.room, this.maxPlayers, this.characteristicsList, (channel: {
@@ -282,6 +282,8 @@
           }
 
           state.room = channel.room
+          localStorage.setItem("myOwnId", state.ownUserId);
+          localStorage.setItem("oldRoom", `${state.room?.name}#${state.room?.id}`);
           this.$router.push(`${defaultPath}/dashboard`)
         })
       },

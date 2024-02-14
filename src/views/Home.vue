@@ -83,6 +83,26 @@
           </v-btn>
         </v-col>
       </v-row>
+      <v-row v-if="oldServer">
+        <v-col
+          cols="12"
+          md="5"
+        />
+        <v-col
+          cols="12"
+          md="2"
+        >
+          <v-btn
+            color="warning"
+            class="mt-4"
+            block
+            :loading="isJoining"
+            @click="reconnect"
+          >
+            Reconnect to {{ oldServer }}
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </v-form>
   <CreateChannelModel 
@@ -96,7 +116,7 @@
 <script lang="ts">
   import { defineComponent } from 'vue'
   import CreateChannelModel from '@/components/CreateChannelModal.vue'
-  import { socket, state } from '@/plugins/socket';
+  import { socket, state, Room } from '@/plugins/socket';
   const defaultPath = import.meta.env.VITE_DEFAULT_PATH
 
   export default defineComponent({
@@ -115,6 +135,9 @@
     computed: {
       isDisabled() {
         return this.isCreating || this.isJoining;
+      },
+      oldServer() {
+        return localStorage.getItem('oldRoom') || ''
       }
     },
     mounted() {
@@ -137,7 +160,7 @@
       join() {
         this.isJoining = true 
         socket.emit('user', this.username, (infoUser: {name: string}) => {
-          state.users[socket.id] = infoUser
+          state.users[state.ownUserId] = infoUser
         })
         socket.emit('join room', this.room, (infoRoom: {
           joinning: boolean, 
@@ -162,7 +185,25 @@
           socket.emit('users in channel', infoRoom.room.users, (users: object) => {
             state.users = users
           })
+          localStorage.setItem("myOwnId", state.ownUserId)
+          localStorage.setItem("oldRoom", this.room);
           this.$router.push(`${defaultPath}/dashboard`)
+        })
+      },
+      reconnect() {
+        const userId = localStorage.getItem("myOwnId") || ''
+        const oldRoom = localStorage.getItem("oldRoom")
+        state.ownUserId = userId
+        socket.emit('reconnect', userId, oldRoom, (room: Room) => {
+          if(room.error) {
+            this.errorMessage = room.error
+            return
+          }
+          state.room = room
+          socket.emit('users in channel', room.users, (users: object) => {
+            state.users = users
+            this.$router.push(`${defaultPath}/dashboard`)
+          })
         })
       },
       stopCreatingChannel() {

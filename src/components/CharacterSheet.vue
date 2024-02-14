@@ -71,10 +71,10 @@
     },
     computed: {
       isOwnCharacter() {
-        return this.selectedUser === socket.id
+        return this.selectedUser === state.ownUserId
       },
       isAdmin() {
-        return this.room?.admin === socket.id
+        return this.room?.admin === state.ownUserId
       }
     },
     props: {

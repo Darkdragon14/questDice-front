@@ -7,7 +7,7 @@
             <v-expansion-panels>
               <template v-if="rollLogs?.length" v-for="roll of currentRolls">
                 <v-expansion-panel>
-                    <v-expansion-panel-title>Result of {{ roll.userId === socket.id ? 'Me' : users ? users[roll.userId].name : 'user not found'}}: {{ roll.total }}</v-expansion-panel-title>
+                    <v-expansion-panel-title>Result of {{ roll.userId === state.ownUserId ? 'Me' : users ? users[roll.userId].name : 'user not found'}}: {{ roll.total }}</v-expansion-panel-title>
                     <v-expansion-panel-text>
                         <template v-for="(value, dice) in roll">
                           <template v-if="!['total','userId'].includes(dice)">
@@ -41,7 +41,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import { socket } from '@/plugins/socket'
+  import { socket, state } from '@/plugins/socket'
 
   export default defineComponent({
     data() {

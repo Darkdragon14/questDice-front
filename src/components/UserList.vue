@@ -20,6 +20,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
+  import { state } from '@/plugins/socket';
 
   export default defineComponent({
     props: {
