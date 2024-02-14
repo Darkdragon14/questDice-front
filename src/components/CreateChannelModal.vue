@@ -13,13 +13,23 @@
           <v-container>
             <v-row>
               <v-col
-                lg="4"
+                sm="4"
               >
                 <v-text-field
                   v-model="maxPlayers"
                   label="Maximum number of players"
                   type="number"
                 ></v-text-field>
+              </v-col>
+              <v-col
+                sm="4"
+              >
+                <!--TODO MAKE IT MORE BEAUTIFUL-->
+                <v-switch 
+                  v-model="gameMasterIsAPlayer"
+                  label="GM has own character"
+                >
+                </v-switch>
               </v-col>
             </v-row>
           </v-container>
@@ -28,7 +38,7 @@
               <v-container>
                 <v-row>
                   <v-col
-                    lg="3"
+                    sm="3"
                   >
                     <v-btn
                       icon 
@@ -55,7 +65,7 @@
                     </v-btn>
                   </v-col>
                   <v-col
-                    lg="8"
+                    sm="8"
                   >
                     <v-list-item v-if="!characteristic.hasSubgroup" :prepend-icon="characteristic.icon" :title="characteristic.label" :subtitle="characteristic.type"/>
                     <v-list-group v-else :value="characteristic.label">
@@ -118,8 +128,8 @@
                     Add a characteristic
                     <v-btn 
                       size="x-small"
-                      icon="mdi-plus"
-                      color="success"
+                      :icon="showForm ? 'mdi-minus' : 'mdi-plus'"
+                      :color="showForm ? 'error' : 'success'"
                       @click="showForm = !showForm"
                     >
                     </v-btn>
@@ -207,7 +217,7 @@
 
 <script lang="ts">
   import { defineComponent } from 'vue'
-  import { socket, state } from '@/plugins/socket'
+  import { socket, state, Room } from '@/plugins/socket'
   import defaultCharacteristicList from '@/assets/defaultCharacteristicList.json'
   const defaultPath = import.meta.env.VITE_DEFAULT_PATH
 
@@ -251,6 +261,7 @@
         hasSubgroup: false,
         characteristicsList: defaultCharacteristicList as CharacteristicWithSubgroup[],
         maxPlayers: 4,
+        gameMasterIsAPlayer: false,
         errorMessage: '',
         optionsType: ["Text", "Large Text", "Number"],
         type: '',
@@ -263,17 +274,9 @@
           state.users[state.ownUserId] = infoUser
         })
 
-        socket.emit('create room', this.room, this.maxPlayers, this.characteristicsList, (channel: {
+        socket.emit('create room', this.room, this.maxPlayers, this.gameMasterIsAPlayer, this.characteristicsList, (channel: {
           creating: boolean,
-          room: {
-            id: string,
-            name: string,
-            admin: string,
-            users: string[],
-            players: { [key: string]: object },
-            maxPlayers: number,
-            characteristicPlayer: object[]
-          }, 
+          room: Room, 
           error: string
         }) => {
           if (channel.error) {

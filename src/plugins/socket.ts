@@ -12,19 +12,20 @@ export interface Room {
     [key: string]: object
   },
   maxPlayers: number,
+  gameMasterIsAPlayer: boolean,
   characteristicPlayer: object[],
   error?: string
 }
 
 export interface State {
   ownUserId: string,
-  connected: boolean;
-  room: Room;
-  users: any;
+  connected: boolean,
+  room: Room,
+  users: any,
   rollLogs: {
       total: number,
       userId: string
-  }[];
+  }[]
 }
 
 export const state: State = reactive({
@@ -37,6 +38,7 @@ export const state: State = reactive({
     users: [],
     players: {},
     maxPlayers: 0,
+    gameMasterIsAPlayer: false,
     characteristicPlayer: []
   },
   users: {},

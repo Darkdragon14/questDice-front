@@ -4,7 +4,7 @@
     location="right"
   >
     <v-divider></v-divider>
-    <template v-if="users && selectedUser && selectedUser !== room?.admin">
+    <template v-if="users && selectedUser && (selectedUser !== room?.admin || room?.gameMasterIsAPlayer)">
       <v-list-item>
         {{ isOwnCharacter ? 'Your Character' : `${users[selectedUser].name}'s Character` }}
         <v-btn 

@@ -149,7 +149,8 @@
         users: [],
         players: {},
         maxPlayers: 0,
-          characteristicPlayer: []
+        gameMasterIsAPlayer: false,
+        characteristicPlayer: []
       }
     },
     methods: {
@@ -164,15 +165,7 @@
         })
         socket.emit('join room', this.room, (infoRoom: {
           joinning: boolean, 
-          room: {
-            id: string,
-            name: string,
-            admin: string,
-            users: string[],
-            players: {},
-            maxPlayers: number,
-            characteristicPlayer: []
-          },
+          room: Room,
           error: string
         }) => {
           if (infoRoom.error) {
